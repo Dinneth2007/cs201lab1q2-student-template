@@ -67,55 +67,60 @@ public class SinglyLinkedList<E> {
 
     // Write your codes below
     public String toString(){
-        StringBuilder result = new StringBuilder();
+         StringBuilder sb = new StringBuilder();
         Node<E> current = head;
-
-        while (current != null){
-            if (result.length() > 0){
-                result.append(" -> ");
-            }
-            result.append(current.getElement());
+        while (current != null) {
+            sb.append(current.getElement());
             current = current.getNext();
         }
-
-        return result.toString();
+        return sb.toString();
     }
 
     public E removeLast(){
-        if (isEmpty()){
+        if (isEmpty()) {
             return null;
         }
-
+ 
         E answer = tail.getElement();
-
-        if (size == 1){
+ 
+        
+        if (head == tail) {
             head = null;
             tail = null;
-        } else {
-            Node<E> current = head;
-            while (current.getNext() != tail){
-                current = current.getNext();
-            }
-            current.setNext(null);
-            tail = current;
+            size = 0;
+            return answer;
         }
-
+ 
+        
+        Node<E> current = head;
+        while (current.getNext() != tail) {
+            current = current.getNext();
+        }
+ 
+        current.setNext(null);   
+        tail = current;          
         size--;
         return answer;
     }
 
     public void reverse(){       
+        if (size <= 1) {
+            return;   // empty or single node: already reversed
+        }
+ 
         Node<E> previous = null;
         Node<E> current = head;
-        tail = head;
-
-        while (current != null){
-            Node<E> next = current.getNext();
-            current.setNext(previous);
-            previous = current;
-            current = next;
+ 
+        while (current != null) {
+            Node<E> nextNode = current.getNext();  // save before we overwrite
+            current.setNext(previous);             // flip the arrow backwards
+            previous = current;                    // shuffle both pointers on
+            current = nextNode;
         }
-
+ 
+        // The loop ends with current == null and previous on the old last node.
+        // ORDER MATTERS: the old head becomes the tail, so capture it first.
+        tail = head;
         head = previous;
     }
 }
