@@ -18,4 +18,6 @@ public class Node<E> {
     public void setNext(Node<E> n){
         next = n;
     }
+
+    //Done
 }
